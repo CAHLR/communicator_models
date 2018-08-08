@@ -1,0 +1,16 @@
+.ipynb_checkpoints/
+__pycache__/
+code/
+data/
+model/*
+prepared_dataset/*
+source_code
+test_courses/*
+training_courses/*
+*.swp
+*.npy
+*.ipynb
+process/.*
+process/__pycache__
+process/*.ipynb
+

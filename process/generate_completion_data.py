@@ -21,7 +21,7 @@ event_list_file=home_dir+'/RNN_event_list.csv'
 keras_file=dataset_dir+'/training_data'
 config_file=home_dir+'/config.ini'
 
-# readn the json file:
+# read the json file:
 # get the basic directories and read the cleaned_student_sorted event data
 cleaned_student_sorted=[]
 course_name=[]

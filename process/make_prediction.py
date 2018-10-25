@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import utils
 from collections import defaultdict
 import numpy as np
@@ -15,18 +9,11 @@ import sys
 import argparse
 
 
-# In[ ]:
-
-
 #get the course name from command line
 parser = argparse.ArgumentParser()
 parser.add_argument("course_name", help="input the course you want to make prediction",)
 args = parser.parse_args()
 course=arges.course_name
-
-
-# In[ ]:
-
 
 # get the data directory
 home_dir=path.dirname(os.getcwd())
@@ -38,16 +25,8 @@ predictions_file=data_dir+'/predictions.csv'
 time_interval_file=data_dir+ 'time_intervals.json'
 config_file=home_dir+'/config.ini'
 
-
-# In[ ]:
-
-
 config = ConfigParser.ConfigParser()
 config.read(config_file)
-
-
-# In[ ]:
-
 
 # Generate dictionary of student to list of his/her actions sorted chronologically
 student_sorted=utils.generate_ordered_event_copy(log_file)
@@ -57,9 +36,6 @@ ce_types = utils.get_ce_types(event_list_file)
 
 # get the pre_action list for events
 pre_action = config.get('Options', 'preaction')
-
-
-# In[ ]:
 
 
 print('data processing')
@@ -152,10 +128,6 @@ for user,actions in student_sorted.items():
 
 event_df = pd.DataFrame({'userID': users_ID, 'seq':users_seq})
 
-
-# In[ ]:
-
-
 print('making predictions')
 
 # generating the train matrix
@@ -180,9 +152,6 @@ y_pred_pass = y_pred[event_df, 0]
 y_pred_comp = y_pred[event_df, 1]
 y_pred_stop = y_pred[event_df, 2]
 result_df = pd.DataFrame({'userID': users_ID, 'y_pass':y_pred_pass,'y_comp':y_pred_comp,'y_stop':y_pred_stop})
-
-
-# In[ ]:
 
 
 #generate the prediciton file

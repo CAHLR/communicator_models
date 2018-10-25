@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from collections import defaultdict
 import json
 import datetime
@@ -14,9 +8,6 @@ import pickle
 import glob
 import os
 from os import path 
-
-
-# In[3]:
 
 
 def generate_stusort_event_copy(log_file):
@@ -68,8 +59,6 @@ def generate_stusort_event_copy(log_file):
     print('finishing sorting by stu')
     return student_sorted
 
-
-# In[ ]:
 
 
 def get_ce_types(event_list_file):

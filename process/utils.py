@@ -1,11 +1,6 @@
-from collections import defaultdict
 import json
 import datetime
-import re
-import pandas as pd
-import numpy as np
 import pickle
-import glob
 import os
 from os import path 
 
@@ -61,11 +56,12 @@ def generate_stusort_event_copy(log_file):
 
 
 
-def get_ce_types(event_list_file):
+def get_ce_types():
     """
-    INPUT: event list file (RNN_event_list.csv)
+    INPUT: NULL
     OUTPUT: dictionary with integer encodings of event types
     """
+    event_list_file=path.dirname(os.getcwd())+'/data/RNN_event_list.csv'
     if not os.path.exists(event_list_file):
         raise Exception("No list of RNN Events")
 
@@ -184,66 +180,15 @@ def parse_event(data):
         print ("Found this event for the first time, skipping it for now")
         pass
 
-def get_cutoff(time_intervals):
+def load_keras_weights_from_disk():
     
     """
-    INPUT: dictionary of the time_intervals of the 20 courses of each event
-    OUTPUT: a list which includes the start date and the end date of the course
-    """
-    cutoff={}
-    for key in time_intervals:
-        valid_interval=[i for i in time_interval[key] if i< 1800]
-        cutoff_1=np.percentile(valid_interval,100/3)
-        cutoff_2=np.percentile(valid_interval,200/3)
-        cutoff[key]=[cutoff_1,cutoff_2]
-    return cutoff
-
-
-def get_date(course,root):
-    
-    """
-    INPUT: dictionary of the time_intervals of the 20 courses of each event
-    OUTPUT: the 2 cutoffs of each event to categorized the time_intervals
-    """
-
-    name=course.split('-')
-    if len(name)==3:
-        c_name=name[0]+'-'+name[1]
-        c_time=name[2]
-    else:
-        c_name=name[0]+'-'+name[1]+'-'+name[2]
-        c_time=name[3]
-    policy_file = path.join(root,c_name+'-'+c_time +'/policies/course/policy.json')
-    try:
-        with open(policy_file,'r') as f:
-            data=json.load(f)
-        start_time=data['course/course']['start']
-        end_time=data['course/course']['end']
-    except:
-        policy_file = path.join(root,c_name+'-'+c_time +'/policies/'+c_time+'/policy.json')
-        with open(policy_file,'r') as f:
-            data=json.load(f)
-        start_time=data['course/'+c_time]['start']
-        end_time=data['course/'+c_time]['end']   
-
-    tt = start_time.split('+')[0]
-    start_time = datetime.datetime.strptime(tt, '%Y-%m-%dT%H:%M:%S.%fZ' if '.' in tt else '%Y-%m-%dT%H:%M:%SZ')
-    tt = end_time.split('+')[0]
-    end_time = datetime.datetime.strptime(tt, '%Y-%m-%dT%H:%M:%S.%fZ' if '.' in tt else '%Y-%m-%dT%H:%M:%SZ')   
-    
-    date=[start_time,end_time]
-    return date
-
-def load_keras_weights_from_disk(directory):
-    
-    """
-    INPUT: path to the model directory
+    INPUT: NULL
     OUTPUT: keras model with the respective architecture and weights
     """
-    
-    with open(directory + "/model.json", 'r') as json_file:
+    model_dir==path.dirname(os.getcwd())+'/model'
+    with open(model_dir + "/model.json", 'r') as json_file:
         keras_model = model_from_json(json_file.readline())
     keras_model.load_weights(directory + "/model_weights.h5")
     keras_model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
     return keras_model
-

@@ -2,7 +2,6 @@
 __pycache__/
 code/
 data/
-model/*
 prepared_dataset/*
 source_code
 test_courses/*

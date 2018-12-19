@@ -54,8 +54,6 @@ def generate_stusort_event_copy(log_file):
     print('finishing sorting by stu')
     return student_sorted
 
-
-
 def get_ce_types():
     """
     INPUT: NULL
@@ -180,14 +178,14 @@ def parse_event(data):
         print ("Found this event for the first time, skipping it for now")
         pass
 
-def load_keras_weights_from_disk():
+def load_keras_weights_from_disk(type):
     
     """
-    INPUT: NULL
+    INPUT: The mode type you want select  e.g. lstm, lr
     OUTPUT: keras model with the respective architecture and weights
     """
     model_dir==path.dirname(os.getcwd())+'/model'
-    with open(model_dir + "/model.json", 'r') as json_file:
+    with open(model_dir + "/"+ type +"_model.json", 'r') as json_file:
         keras_model = model_from_json(json_file.readline())
     keras_model.load_weights(directory + "/model_weights.h5")
     keras_model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
